@@ -4,14 +4,16 @@
 
         <form class="form-signin" @submit.prevent="signIn">
             <div class="text-center">
-                <img class="mb-4" src="../assets/image/logo.png" alt="logo" height="168px">
+                <img class="mb-4" src="../assets/image/logo.png" alt="logo" height="166px" width="166px">
             </div>
-            <div class="bg-white p-4 rounded">
+            <div class="bg-white p-4 form-box">
                 <h1 class="h4 mb-3 font-weight-normal text-center text-muted">會員登入</h1>
                 <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="email" id="inputEmail" v-model="user.username" 
-                class="form-control" placeholder="Email address" required autofocus>
-                
+
+                <input type="email" id="inputEmail" name="signInEmail"
+                class="form-control mb-2 requird" placeholder="Email address" 
+                autofocus v-model="user.username">
+
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input type="password" id="inputPassword" v-model="user.password"
                 class="form-control" placeholder="Password" required>
@@ -42,12 +44,11 @@ export default {
             const api =`${process.env.VUE_APP_APIPATH}/admin/signin`
             vm.isLoading = true
             
-
             vm.$http.post(api, vm.user).then((response) =>{
                 console.log(response.data)
                 if(response.data){
                     vm.isLoading = false;
-                    vm.$router.push('/')              
+                    vm.$router.push('/admin/products')              
                 }
             })
         }
@@ -61,11 +62,15 @@ export default {
 <style scoped>
 .form-signin {
     width: 100%;
-    max-width: 430px;
+    max-width: 500px;
     padding: 15px;
     margin: auto;
 }
 
+.form-box {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    border-radius: 10px;
+}
 
 .form-signin .checkbox {
     font-weight: 400;

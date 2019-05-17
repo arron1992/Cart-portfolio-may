@@ -5,6 +5,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import 'bootstrap';
+
 // 自訂元件
 import App from './App.vue'
 
@@ -23,7 +25,7 @@ router.beforeEach((to, from, next) => {
           
       axios.post(api).then((response) =>{
         console.log(response.data)
-        if(response.data){
+        if(response.data.success){
           next();
         } else{
           next({path:'/login'})

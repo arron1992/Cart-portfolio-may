@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 
 Vue.use(Router)
 
@@ -11,10 +10,17 @@ export default new Router({
       redirect : '/login'
     },
     {
-      path: '/',
-      name: 'home',
-      component: Home,
-      meta: { requiresAuth: true }
+      path: '/admin',
+      name: 'Dashboard',
+      component: () => import('./views/Dashboard.vue'),
+      children:[
+        {
+          path: 'products',
+          name: 'Product',
+          component: () => import('./components/Products.vue'),
+          meta: { requiresAuth: true }
+        }
+      ],
     },
     {
       path: '/login',
