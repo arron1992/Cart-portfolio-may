@@ -39,6 +39,9 @@
             </tbody>
         </table>
 
+        <!-- Pagination -->
+        <Pagination :page-data="pagination" v-on:middleMethod="afterMethod"></Pagination>
+    
         <!-- Modal for add & edit -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -173,36 +176,41 @@
             </div>
         </div>
         </div>
-
     </div>
 </template>
 
 <script>
 import $ from 'jquery';
+import Pagination from './Pagination'
 
 export default {
+    components:{
+        Pagination
+    },
     data (){
         return {
             tempProduct: {},
             productAry : [],
+            pagination : {},
             isLoading : false,
             status : {
                 loading : false
             },
             isNew : false,
+            
         }
     },
     methods:{
-        getProducts(){
+        getProducts(page = 1){
             const vm = this;
-            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products/all`
+            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`
             vm.isLoading = true;
 
             vm.$http.get(api).then((response) => {
-                // console.log(response.data);
+                //console.log(response.data);
                 vm.productAry = response.data.products;
+                vm.pagination = response.data.pagination
                 vm.isLoading = false;
-
             })
         },
         openModal(isNew, item){
@@ -284,6 +292,9 @@ export default {
                 vm.getProducts();
                 vm.isLoading = false;
             })
+        },
+        afterMethod(page){
+            this.getProducts(page);
         }
     },
     created(){

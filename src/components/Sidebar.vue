@@ -10,17 +10,17 @@
         </h6>
         <ul class="nav flex-column m-2 px-3">
           <li class="nav-item" @click.prevent="type='A'"> 
-            <router-link to="#" class="nav-link h5 font-weight-bolder" :class="{'text-primary' : type === 'A'}">
+            <router-link to="products" class="nav-link h5 font-weight-bolder" :class="{'text-primary' : type === 'A'}">
               <i class="fas fa-file-invoice-dollar mr-2"></i>產品列表</router-link>
           </li>
 
           <li class="nav-item" @click.prevent="type='B'"> 
-            <router-link to="/products" class="nav-link h5 font-weight-bolder" :class="{'text-primary' : type === 'B'}">
+            <router-link to="orderlist" class="nav-link h5 font-weight-bolder" :class="{'text-primary' : type === 'B'}">
               <i class="fas fa-file-invoice-dollar mr-2"></i>訂單列表</router-link>
           </li>
 
           <li class="nav-item" @click.prevent="type='C'"> 
-            <router-link to="#" class="nav-link h5 font-weight-bolder" :class="{'text-primary' : type === 'C'}">
+            <router-link to="coupon" class="nav-link h5 font-weight-bolder" :class="{'text-primary' : type === 'C'}">
               <i class="fas fa-file-invoice-dollar mr-2"></i>優惠票券</router-link>
           </li>
         </ul>
