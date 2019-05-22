@@ -16,7 +16,7 @@
             </thead>
             <tbody>
                 <tr v-for="item in couponAry" :key="item.id">
-                    <td class="align-middle" width="160">{{item.title}}</td>
+                    <td class="align-middle" width="180">{{item.title}}</td>
                     <td class="align-middle" width="120">{{item.percent}}</td>
                     <td class="align-middle" width="100">{{item.v_due_date}}</td>
                     <td class="align-middle" width="100" v-if="item.is_enabled">啟用</td>
@@ -159,7 +159,6 @@ export default {
                     // event-bus
                     console.log('新增/修改失敗')
                 }
-
             })
             vm.isLoading = false;            
         },

@@ -12,17 +12,11 @@
 </template>
 
 <script>
-export default {
+    export default {
     name: 'Navbar',
     data() {
         return {
-        messages: [
-            {
-                message :'text',
-                status : 'danger',
-                timestamp: 123
-            }
-        ],
+        messages: [],
         };
     },
     methods: {
@@ -35,9 +29,11 @@ export default {
         });
         this.removeMessageWithTiming(timestamp);
         },
+        // 手動刪除
         removeMessage(num) {
         this.messages.splice(num, 1);
         },
+        // 倒數刪除
         removeMessageWithTiming(timestamp) {
         const vm = this;
         setTimeout(() => {
@@ -49,16 +45,16 @@ export default {
         }, 5000);
         },
     },
-created() {
-    // const vm = this;
+    created() {
 
     // 自定義名稱 'messsage:push'
     // message: 傳入參數
     // status: 樣式，預設值為 warning
-    // vm.$bus.$on('messsage:push', (message, status = 'warning') => {
-    //   vm.updateMessage(message, status);
-    // });
-    // vm.$bus.$emit('message:push');
+    const vm = this;
+    vm.$bus.$on('message:push', (message, status = 'warning') => {
+        vm.updateMessage(message, status);
+    });
+    //vm.$bus.$emit('message:push');
 },
 };
 </script>

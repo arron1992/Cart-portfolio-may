@@ -18,12 +18,12 @@
             <tbody>
                 <tr v-for="item in productAry" :key="item.id">
                     <td class="align-middle" width="120">{{ item.category }}</td>
-                    <td class="align-middle" width="200">{{ item.title }}</td>
+                    <td class="align-middle" width="180">{{ item.title }}</td>
                     <td class="align-middle text-right" width="80">
-                        {{ item.origin_price}}
+                        {{ item.origin_price | currency}}
                     </td>
                     <td class="text-right align-middle" width="80">
-                        {{ item.price}}
+                        {{ item.price | currency}}
                     </td> 
                     <td width="80" class="align-middle">
                         <span v-if="item.is_enabled" class="text-success">啟用</span>
@@ -245,6 +245,25 @@ export default {
                     // event.bus => 產品新增失敗
                 }
             })
+        },      
+        openRevModal(item){    
+            this.tempProduct = item;
+            $('#removeModal').modal('show');
+        },
+        removeProduct(id){
+            const vm = this;
+            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProduct.id}`
+            vm.isLoading = true;
+
+            vm.$http.delete(api).then((response) => {
+                // console.log(response.data);
+                $('#removeModal').modal('hide');
+                vm.getProducts();
+                vm.isLoading = false;
+            })
+        },
+        afterMethod(page){
+            this.getProducts(page);
         },
         uploadFile(){
             //事件綁定用  @change="uploadFile";
@@ -265,40 +284,24 @@ export default {
                 headers : {
                     'Content-type' : 'multipart/form-data'
                 }       
-            }).then((response) => {
-                
+            }).then((response) => {    
                 console.log(response.data);
-                if(response.data){
+                if(response.data.success){
                     // vm.tempProduct.imageUrl = response.data.imageUrl 
-                    // => 因為資料結構一開始沒設定好, 所以用 $set 強制綁定確保雙向綁定
+                    // => 因為資料結構一開始沒設定好, 所以用 $set(目標,位置,內容) 強制綁定確保雙向綁定
                     vm.$set(vm.tempProduct , 'imageUrl', response.data.imageUrl); 
-                    vm.status.loading = false;                        
+                    vm.status.loading = false;  
+                    vm.$bus.$emit('message:push', '檔案新增成功' , 'success')
+                } else {
+                    vm.$bus.$emit('message:push', response.data.message , 'danger')
                 }
             })
             
         },
-        openRevModal(item){    
-            this.tempProduct = item;
-            $('#removeModal').modal('show');
-        },
-        removeProduct(id){
-            const vm = this;
-            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProduct.id}`
-            vm.isLoading = true;
-
-            vm.$http.delete(api).then((response) => {
-                // console.log(response.data);
-                $('#removeModal').modal('hide');
-                vm.getProducts();
-                vm.isLoading = false;
-            })
-        },
-        afterMethod(page){
-            this.getProducts(page);
-        }
     },
     created(){
         this.getProducts();
+        //this.$bus.$emit('messageShow', '這是一段訊息' , 'success');
     }
 }
 </script>

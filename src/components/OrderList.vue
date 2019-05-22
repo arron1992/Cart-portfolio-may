@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 <tr v-for="(item,key) in sortOrder" :key="key">
-                    <td>{{item.create_at | timestampFilter }}</td>
+                    <td>{{item.create_at}}</td>
                     <td>{{item.user.email}}</td>
                     <td>
                         <ul class="list-unstyled">

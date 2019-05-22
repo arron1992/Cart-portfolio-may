@@ -1,6 +1,7 @@
 <template>
     <div>
         <loading :active.sync="isLoading"></loading>
+        <Alert/>
 
         <form class="form-signin" @submit.prevent="signIn">
             <div class="text-center">
@@ -28,7 +29,12 @@
     </div>
 </template>
 <script>
+import Alert from '../components/Alert.vue';
+
 export default {
+    components :{
+        Alert
+    },
     data (){
         return {
             user : {
@@ -46,9 +52,12 @@ export default {
             
             vm.$http.post(api, vm.user).then((response) =>{
                 console.log(response.data)
-                if(response.data){
+                if(response.data.success){
                     vm.isLoading = false;
                     vm.$router.push('/admin/products')              
+                } else {
+                    vm.$bus.$emit('message:push', response.data.message, 'danger' );
+                    vm.isLoading = false;
                 }
             })
         }

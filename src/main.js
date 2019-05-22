@@ -8,12 +8,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import 'bootstrap';
 
 // 自訂元件
-import App from './App.vue'
+import App from './App.vue';
+import CurrencyFilter from './filters/currency';
+import './bus'
 
-// 啟用套件
+// 啟用套件 & 元件
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
 Vue.component('Loading',Loading);
+Vue.filter('currency', CurrencyFilter);
 
 // 修正跨域登入
 axios.defaults.withCredentials = true;
