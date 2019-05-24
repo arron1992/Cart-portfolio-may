@@ -1,13 +1,12 @@
 <template>
     <div>
         <nav class="navbar fixed-top bg-primary flex-md-nowrap p-0 shadow">
-            <router-link to="/login" class="nav-link text-white h3 font-weight-bolder">Molucces</router-link>
+            <router-link to="/store/custom_order" class="nav-link text-white h3 font-weight-bolder">Molucces</router-link>
             <ul class="navbar-nav px-3">                
                 <li class="nav-item text-nowrap mr-2">
                     <a class="nav-link text-white h3 font-weight-bolder" href="#" @click="logout()">登出</a>
                 </li>
-            </ul>
-            
+            </ul>  
         </nav>
     </div>
 </template>

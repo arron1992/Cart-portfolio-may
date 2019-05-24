@@ -17,7 +17,10 @@
             </thead>
             <tbody>
                 <tr v-for="item in productAry" :key="item.id">
-                    <td class="align-middle" width="120">{{ item.category }}</td>
+                    <td class="align-middle" width="120">
+                        <h2><span class="badge badge-warning text-light">
+                        {{ item.category }}</span></h2>
+                    </td>
                     <td class="align-middle" width="180">{{ item.title }}</td>
                     <td class="align-middle text-right" width="80">
                         {{ item.origin_price | currency}}

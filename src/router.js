@@ -10,6 +10,18 @@ export default new Router({
       redirect : '/login'
     },
     {
+      path: '/store',
+      name: 'StoreIndex',
+      component: () => import('./views/StoreIndex.vue'),
+      children:[
+        {
+          path: 'custom_order',
+          name: 'CustomOrder',
+          component: () => import('./components/CustomOrder.vue'),
+        }
+      ],
+    },
+    {
       path: '/admin',
       name: 'Dashboard',
       component: () => import('./views/Dashboard.vue'),
@@ -38,6 +50,7 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: () => import('./views/Login.vue')
-    }
+    },
+    
   ]
 })
