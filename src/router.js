@@ -28,13 +28,18 @@ export default new Router({
     },
     {
       path: '/store/checkout',
-      name: 'Checkout',
+      name: '',
       component: () => import('./views/checkout.vue'),
       children : [
         {
           path: '',
-          name: 'Orderdata',
+          name: 'orderdata',
           component: () => import('./components/Orderdata.vue'),
+        },
+        {
+          path: ':orderId',
+          name: '',
+          component: () => import('./components/OrderCheck.vue'),
         },
       ]
     },

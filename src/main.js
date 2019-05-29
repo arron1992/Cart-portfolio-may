@@ -6,6 +6,8 @@ import VueAxios from 'vue-axios'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import 'bootstrap';
+import VeeValidate from 'vee-validate';
+import zhTWValidate from 'vee-validate/dist/locale/zh_TW';
 
 // 自訂元件
 import App from './App.vue';
@@ -17,6 +19,8 @@ Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
 Vue.component('Loading',Loading);
 Vue.filter('currency', CurrencyFilter);
+Vue.use(VeeValidate);
+VeeValidate.Validator.localize('zh_TW', zhTWValidate)
 
 // 修正跨域登入
 axios.defaults.withCredentials = true;
