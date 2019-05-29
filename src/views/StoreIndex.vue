@@ -3,7 +3,7 @@
         <Header/>
 
         <!-- Carousel 後續要用個Link=name 限制在首頁--> 
-        <div class="container my-4">
+        <div class="container">
             <div class="row">
                 <!-- <div id="carouselExampleControls" class="carousel slide col-12" data-ride="carousel">
                     <div class="carousel-inner">
@@ -26,15 +26,11 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div> -->
-                <img src="../assets/image/topic/recipes-header.jpg" class="d-block w-100  img-fluid" style="height:450px;" alt="banner">
+            
+            <!-- product group-->
+                <router-view class="my-5"></router-view>
             </div>
-        </div>
-        
-        <!-- product group-->
-        <div class="container my-5">
-            <router-view></router-view>
-        </div>
-        
+        </div>    
         <Footer/>
     </div>
 </template>

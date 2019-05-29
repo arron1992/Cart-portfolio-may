@@ -13,13 +13,30 @@ export default new Router({
       path: '/store',
       name: 'StoreIndex',
       component: () => import('./views/StoreIndex.vue'),
-      children:[
+      children:[    
         {
           path: 'custom_order',
           name: 'CustomOrder',
           component: () => import('./components/CustomOrder.vue'),
-        }
+        },
+        {
+          path: 'single_item/:itemId',
+          name: 'SingleItem',
+          component: () => import('./components/Singleitem.vue'),
+        },
       ],
+    },
+    {
+      path: '/store/checkout',
+      name: 'Checkout',
+      component: () => import('./views/checkout.vue'),
+      children : [
+        {
+          path: '',
+          name: 'Orderdata',
+          component: () => import('./components/Orderdata.vue'),
+        },
+      ]
     },
     {
       path: '/admin',

@@ -1,8 +1,9 @@
 <template>
     <div>
         <loading :active.sync="isLoading"></loading>
-
-        <div class="row">
+        <img src="../assets/image/topic/recipes-header.jpg" class="d-block w-100  img-fluid" style="height:450px;" alt="banner">
+        
+        <div class="row mt-5">
             <!-- List-Group -->
             <div class="col-3">
                 <div class="list-group sticky-top">
@@ -20,24 +21,21 @@
                     </div>
                 </div>
             </div>
-
             <!-- Product-Area -->
             <div class="col-9">
                 <div class="row">
                     <div class="col-md-4 mb-4" v-for="item in filterData[currentPage]" :key="item.id">
                         <div class="card shadow">
-                            <a href="#" @click.prevent="getSingleItem(item.id)" class="card-head" :style="{backgroundImage:`url(${item.imageUrl})`}"></a>
+                            <!-- <router-link to="/store/single_item" @click.prevent="getSingleItem(item.id)" class="card-head" :style="{backgroundImage:`url(${item.imageUrl})`}"></router-link> -->
+                            <a href="#" @click.prevent="getSingleItem(item.id)" class="card-head" :style="{backgroundImage:`url(${item.imageUrl})`}"></a>                            
                             <div class="card-body">
                                 <h5><span class="badge badge-pill badge-warning text-light">{{item.category}}</span></h5>
                                 <a href="#" @click.prevent="getSingleItem(item.id)" class="card-title h4 text-primary text-decoration-none">{{item.title}}</a>
                                 <p class="card-text mt-2">{{item.description}}</p>
                             </div>
-                            <div class="card-footer d-flex">
-                                    <div class="d-flex flex-column">
-                                        <div class="text-decoration h6">NT {{item.origin_price | currency}}</div>
-                                        <div class="text-primary h5">NT {{item.price | currency}}</div>
-                                    </div>
-                                    <button class="btn btn-outline-secondary btn-sm ml-auto">加入購物車</button>
+                            <div class="card-f-footer d-flex p-3">
+                                <div class="text-primary mt-1 h5">NT {{item.price | currency}}</div>
+                                <button class="btn btn-outline-secondary btn-sm ml-auto" @click.prevent="addCart(item.id)">加入購物車</button>   
                             </div>
                         </div>
                     </div>
@@ -65,13 +63,19 @@
                 </div>
             </div>                   
         </div>
+
+        <!-- Cart -->
+        <Cart ref="childMethod"></Cart>
     </div>
 </template>
 <script>
 import Pagination from './Pagination.vue'
+import Cart from './CustomCart.vue'
+
 export default {
     components :{
-        Pagination
+        Pagination,
+        Cart
     },
     data() {
         return {
@@ -88,25 +92,42 @@ export default {
             
             vm.isLoading = true;
             vm.$http.get(api).then((res)=>{
-                if (res.data.success) {
-                    vm.products = res.data.products;
-                    console.log( vm.products );                    
+                if (res.data.success) {                   
+                    vm.products = res.data.products; 
+                    //console.log(res)                  
                 }
             })
             vm.isLoading = false;
         },
         getSingleItem(id){
-            console.log('hi');
             const vm = this;
             const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
             vm.isLoading = true;
             vm.$http.get(url).then((res)=>{
                 if (res.data.success) {
-                    console.log(res.data);                    
+                    //console.log(res.data);
+                    this.$router.push(`/store/single_item/${res.data.product.id}`);
+                    //將 item 的 id 加入網址內, 配合$router.push 轉址
+                    //轉址後即配合$route.params.id 載入 item 的細項                    
                 }
             })
             vm.isLoading = false;
-        }     
+        },
+        addCart(id, qty = 1, item){
+            const vm = this;
+            const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+            vm.isLoading = true;
+            const cart = {
+                product_id : id,
+                qty,
+            }    
+            vm.$http.post(url, {data : cart}).then((res)=>{
+                //建立一個小modal預設隱藏=>點擊後顯示(配合倒數計時);s 
+                //呼叫 <Cart/> 的 getCart() 
+                this.$refs.childMethod.getCart();  
+                vm.isLoading = false;             
+            })         
+        },
     },
     created() {
         this.getData();
@@ -155,7 +176,7 @@ export default {
         border: solid 0.1px #1ba87e;
     }
     .row .col-3 .list-group .list-item{
-        padding:20px;
+        padding:15px;
         text-align :center;
         color : #1ba87e;
         font-size : 18px;
