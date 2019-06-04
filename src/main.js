@@ -8,6 +8,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import 'bootstrap';
 import VeeValidate from 'vee-validate';
 import zhTWValidate from 'vee-validate/dist/locale/zh_TW';
+import store from './store'; 
 
 // 自訂元件
 import App from './App.vue';
@@ -45,5 +46,6 @@ router.beforeEach((to, from, next) => {
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
